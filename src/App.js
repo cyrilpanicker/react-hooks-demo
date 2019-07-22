@@ -1,10 +1,12 @@
 import React from 'react';
-import { TodoApp } from "./components";
+import { TodoApp, Counter, WindowWidth } from "./components";
 
 function App() {
   return (
     <div className="App">
       <TodoApp/>
+      <Counter/>
+      <WindowWidth/>
     </div>
   );
 }

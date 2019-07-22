@@ -1,6 +1,6 @@
 import WindowWidth from "./windowWidth";
 import Counter from "./counter";
-import TodoApp from "./TodoApp";
+import TodoApp from "./todoApp";
 
 export {
   WindowWidth,

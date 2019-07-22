@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-const useTodoApp = () => {
+const useTodoAppState = () => {
+  const filterStatus = { ALL: "ALL", DONE: "DONE", UNDONE: "UNDONE" };
   const [textInput, setTextInput] = useState("");
   const [id, setId] = useState(1);
   const [todos, setTodos] = useState([]);
-  const [todosFilter, setTodosFilter] = useState("ALL");
+  const [todosFilter, setTodosFilter] = useState(filterStatus.ALL);
   const addTodo = () => {
     if (!textInput) return;
     setTodos([...todos, { id, text: textInput, done: false }]);
@@ -17,7 +18,16 @@ const useTodoApp = () => {
       return { ...todo, done: !todo.done };
     }));
   };
-  return { todos, addTodo, toggleTodo, textInput, setTextInput, todosFilter, setTodosFilter };
+  let filter = null;
+  if (todosFilter === filterStatus.DONE) {
+    filter = todo => todo.done;
+  } else if (todosFilter === filterStatus.UNDONE) {
+    filter = todo => !todo.done;
+  } else {
+    filter = () => true;
+  }
+  const filteredTodos = todos.filter(filter);
+  return { todos, filteredTodos, addTodo, toggleTodo, textInput, setTextInput, todosFilter, setTodosFilter, filterStatus };
 };
 
-export { useTodoApp };
+export { useTodoAppState };

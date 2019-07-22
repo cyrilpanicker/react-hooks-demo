@@ -1,16 +1,8 @@
 import React from "react";
-import { useTodoApp } from "./hooks";
+import { useTodoAppState } from "./hooks";
 
 const TodoApp = () => {
-  const { todos, addTodo, toggleTodo, textInput, setTextInput, todosFilter, setTodosFilter } = useTodoApp();
-  let filter = null;
-  if (todosFilter === "DONE") {
-    filter = todo => todo.done;
-  } else if (todosFilter === "UNDONE") {
-    filter = todo => !todo.done;
-  } else {
-    filter = () => true;
-  }
+  const { todos, filteredTodos, addTodo, toggleTodo, textInput, setTextInput, todosFilter, setTodosFilter, filterStatus } = useTodoAppState();
   const Filter = ({ value, text }) => (
     <label>
       <input type="radio" checked={todosFilter === value} onChange={() => setTodosFilter(value)} />
@@ -31,13 +23,13 @@ const TodoApp = () => {
       </div>
       {!!todos.length && (
         <div>
-          <Filter value="ALL" text="All" />
-          <Filter value="DONE" text="Done" />
-          <Filter value="UNDONE" text="Undone" />
+          <Filter value={filterStatus.ALL} text="All" />
+          <Filter value={filterStatus.DONE} text="Done" />
+          <Filter value={filterStatus.UNDONE} text="Undone" />
         </div>
       )}
       <div>
-        {todos.filter(filter).map((todo) => <Todo key={todo.id} todo={todo} />)}
+        {filteredTodos.map((todo) => <Todo key={todo.id} todo={todo} />)}
       </div>
     </form>
   );
